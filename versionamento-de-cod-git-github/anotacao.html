@@ -1,0 +1,685 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Curso: Versionamento de Código com Git e GitHub</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="b34ac8b3-3ba5-4b92-95af-48258650966e" class="page sans"><header><div class="page-header-icon undefined"><img class="icon" src="https://www.notion.so/icons/movie-clapboard-play_blue.svg"/></div><h1 class="page-title">Curso: Versionamento de Código com Git e GitHub</h1><p class="page-description"></p><table class="properties"><tbody><tr class="property-row property-row-text"><th><span class="icon property-icon"><img src="https://www.notion.so/icons/clock-alternate_gray.svg" style="width:14px;height:14px"/></span> </th><td>2 hrs</td></tr><tr class="property-row property-row-select"><th><span class="icon property-icon"><svg role="graphics-symbol" viewBox="0 0 16 16" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0" class="typesSelect"><path d="M8 15.126C11.8623 15.126 15.0615 11.9336 15.0615 8.06445C15.0615 4.20215 11.8623 1.00293 7.99316 1.00293C4.13086 1.00293 0.938477 4.20215 0.938477 8.06445C0.938477 11.9336 4.1377 15.126 8 15.126ZM8 13.7383C4.85547 13.7383 2.33301 11.209 2.33301 8.06445C2.33301 4.91992 4.84863 2.39746 7.99316 2.39746C11.1377 2.39746 13.6738 4.91992 13.6738 8.06445C13.6738 11.209 11.1445 13.7383 8 13.7383ZM7.62402 10.6348C7.79492 10.915 8.20508 10.9287 8.37598 10.6348L10.666 6.73145C10.8574 6.41016 10.7002 6.04102 10.3652 6.04102H5.62793C5.29297 6.04102 5.14941 6.43066 5.32031 6.73145L7.62402 10.6348Z"></path></svg></span>Categoria</th><td><span class="selected-value select-value-color-purple">Curso</span></td></tr><tr class="property-row property-row-relation"><th><span class="icon property-icon"><svg role="graphics-symbol" viewBox="0 0 16 16" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0" class="typesRelation"><path d="M13.1475 10.5869V3.72363C13.1475 3.25195 12.833 2.93066 12.3477 2.93066H5.48438C5.02637 2.93066 4.70508 3.27246 4.70508 3.67578C4.70508 4.07227 5.05371 4.40039 5.46387 4.40039H7.89746L10.8438 4.30469L9.59961 5.39844L3.08496 11.9199C2.92773 12.0771 2.8457 12.2686 2.8457 12.46C2.8457 12.8564 3.20801 13.2256 3.61816 13.2256C3.80957 13.2256 3.99414 13.1504 4.15137 12.9932L10.6729 6.47168L11.7803 5.22754L11.6641 8.05762V10.6074C11.6641 11.0176 11.9922 11.373 12.4023 11.373C12.8057 11.373 13.1475 11.0312 13.1475 10.5869Z"></path></svg></span>Curso</th><td><a href="https://www.notion.so/Desenvolvimento-Java-com-Cloud-AWS-a78bd60359ef4062b82a6fa4df57d848?pvs=21"><img class="icon" src="Curso%20Versionamento%20de%20Co%CC%81digo%20com%20Git%20e%20GitHub%20b34ac8b33ba54b9295af48258650966e/icons8-amazon-web-services-240.png"/>Desenvolvimento Java com Cloud AWS</a></td></tr><tr class="property-row property-row-date"><th><span class="icon property-icon"><svg role="graphics-symbol" viewBox="0 0 16 16" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0" class="typesDate"><path d="M3.29688 14.4561H12.7031C14.1797 14.4561 14.9453 13.6904 14.9453 12.2344V3.91504C14.9453 2.45215 14.1797 1.69336 12.7031 1.69336H3.29688C1.82031 1.69336 1.05469 2.45215 1.05469 3.91504V12.2344C1.05469 13.6973 1.82031 14.4561 3.29688 14.4561ZM3.27637 13.1162C2.70898 13.1162 2.39453 12.8154 2.39453 12.2207V5.9043C2.39453 5.30273 2.70898 5.00879 3.27637 5.00879H12.71C13.2842 5.00879 13.6055 5.30273 13.6055 5.9043V12.2207C13.6055 12.8154 13.2842 13.1162 12.71 13.1162H3.27637ZM6.68066 7.38086H7.08398C7.33008 7.38086 7.41211 7.30566 7.41211 7.05957V6.66309C7.41211 6.41699 7.33008 6.3418 7.08398 6.3418H6.68066C6.44141 6.3418 6.35938 6.41699 6.35938 6.66309V7.05957C6.35938 7.30566 6.44141 7.38086 6.68066 7.38086ZM8.92285 7.38086H9.31934C9.56543 7.38086 9.64746 7.30566 9.64746 7.05957V6.66309C9.64746 6.41699 9.56543 6.3418 9.31934 6.3418H8.92285C8.67676 6.3418 8.59473 6.41699 8.59473 6.66309V7.05957C8.59473 7.30566 8.67676 7.38086 8.92285 7.38086ZM11.1582 7.38086H11.5547C11.8008 7.38086 11.8828 7.30566 11.8828 7.05957V6.66309C11.8828 6.41699 11.8008 6.3418 11.5547 6.3418H11.1582C10.9121 6.3418 10.8301 6.41699 10.8301 6.66309V7.05957C10.8301 7.30566 10.9121 7.38086 11.1582 7.38086ZM4.44531 9.58203H4.84863C5.09473 9.58203 5.17676 9.50684 5.17676 9.26074V8.86426C5.17676 8.61816 5.09473 8.54297 4.84863 8.54297H4.44531C4.20605 8.54297 4.12402 8.61816 4.12402 8.86426V9.26074C4.12402 9.50684 4.20605 9.58203 4.44531 9.58203ZM6.68066 9.58203H7.08398C7.33008 9.58203 7.41211 9.50684 7.41211 9.26074V8.86426C7.41211 8.61816 7.33008 8.54297 7.08398 8.54297H6.68066C6.44141 8.54297 6.35938 8.61816 6.35938 8.86426V9.26074C6.35938 9.50684 6.44141 9.58203 6.68066 9.58203ZM8.92285 9.58203H9.31934C9.56543 9.58203 9.64746 9.50684 9.64746 9.26074V8.86426C9.64746 8.61816 9.56543 8.54297 9.31934 8.54297H8.92285C8.67676 8.54297 8.59473 8.61816 8.59473 8.86426V9.26074C8.59473 9.50684 8.67676 9.58203 8.92285 9.58203ZM11.1582 9.58203H11.5547C11.8008 9.58203 11.8828 9.50684 11.8828 9.26074V8.86426C11.8828 8.61816 11.8008 8.54297 11.5547 8.54297H11.1582C10.9121 8.54297 10.8301 8.61816 10.8301 8.86426V9.26074C10.8301 9.50684 10.9121 9.58203 11.1582 9.58203ZM4.44531 11.7832H4.84863C5.09473 11.7832 5.17676 11.708 5.17676 11.4619V11.0654C5.17676 10.8193 5.09473 10.7441 4.84863 10.7441H4.44531C4.20605 10.7441 4.12402 10.8193 4.12402 11.0654V11.4619C4.12402 11.708 4.20605 11.7832 4.44531 11.7832ZM6.68066 11.7832H7.08398C7.33008 11.7832 7.41211 11.708 7.41211 11.4619V11.0654C7.41211 10.8193 7.33008 10.7441 7.08398 10.7441H6.68066C6.44141 10.7441 6.35938 10.8193 6.35938 11.0654V11.4619C6.35938 11.708 6.44141 11.7832 6.68066 11.7832ZM8.92285 11.7832H9.31934C9.56543 11.7832 9.64746 11.708 9.64746 11.4619V11.0654C9.64746 10.8193 9.56543 10.7441 9.31934 10.7441H8.92285C8.67676 10.7441 8.59473 10.8193 8.59473 11.0654V11.4619C8.59473 11.708 8.67676 11.7832 8.92285 11.7832Z"></path></svg></span>Date</th><td><time>@07/09/2023 19:56</time></td></tr><tr class="property-row property-row-select"><th><span class="icon property-icon"><svg role="graphics-symbol" viewBox="0 0 16 16" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0" class="typesSelect"><path d="M8 15.126C11.8623 15.126 15.0615 11.9336 15.0615 8.06445C15.0615 4.20215 11.8623 1.00293 7.99316 1.00293C4.13086 1.00293 0.938477 4.20215 0.938477 8.06445C0.938477 11.9336 4.1377 15.126 8 15.126ZM8 13.7383C4.85547 13.7383 2.33301 11.209 2.33301 8.06445C2.33301 4.91992 4.84863 2.39746 7.99316 2.39746C11.1377 2.39746 13.6738 4.91992 13.6738 8.06445C13.6738 11.209 11.1445 13.7383 8 13.7383ZM7.62402 10.6348C7.79492 10.915 8.20508 10.9287 8.37598 10.6348L10.666 6.73145C10.8574 6.41016 10.7002 6.04102 10.3652 6.04102H5.62793C5.29297 6.04102 5.14941 6.43066 5.32031 6.73145L7.62402 10.6348Z"></path></svg></span>Módulo</th><td><span class="selected-value select-value-color-orange">Princípios Desenvolvimento de Software</span></td></tr><tr class="property-row property-row-status"><th><span class="icon property-icon"><svg role="graphics-symbol" viewBox="0 0 16 16" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0" class="typesStatus"><path d="M8.75488 1.02344C8.75488 0.613281 8.41309 0.264648 8.00293 0.264648C7.59277 0.264648 7.25098 0.613281 7.25098 1.02344V3.11523C7.25098 3.51855 7.59277 3.86719 8.00293 3.86719C8.41309 3.86719 8.75488 3.51855 8.75488 3.11523V1.02344ZM3.91504 5.0293C4.20215 5.31641 4.69434 5.32324 4.97461 5.03613C5.26855 4.74902 5.26855 4.25684 4.98145 3.96973L3.53906 2.52051C3.25195 2.2334 2.7666 2.21973 2.47949 2.50684C2.19238 2.79395 2.18555 3.28613 2.47266 3.57324L3.91504 5.0293ZM10.9629 4.01758C10.6826 4.30469 10.6826 4.79688 10.9697 5.08398C11.2568 5.37109 11.749 5.36426 12.0361 5.07715L13.4854 3.62793C13.7725 3.34082 13.7725 2.84863 13.4785 2.55469C13.1982 2.27441 12.7061 2.27441 12.4189 2.56152L10.9629 4.01758ZM15.0234 8.78906C15.4336 8.78906 15.7822 8.44727 15.7822 8.03711C15.7822 7.62695 15.4336 7.28516 15.0234 7.28516H12.9385C12.5283 7.28516 12.1797 7.62695 12.1797 8.03711C12.1797 8.44727 12.5283 8.78906 12.9385 8.78906H15.0234ZM0.975586 7.28516C0.56543 7.28516 0.223633 7.62695 0.223633 8.03711C0.223633 8.44727 0.56543 8.78906 0.975586 8.78906H3.07422C3.48438 8.78906 3.83301 8.44727 3.83301 8.03711C3.83301 7.62695 3.48438 7.28516 3.07422 7.28516H0.975586ZM12.0361 10.9902C11.749 10.71 11.2568 10.71 10.9629 10.9971C10.6826 11.2842 10.6826 11.7764 10.9697 12.0635L12.4258 13.5127C12.7129 13.7998 13.2051 13.793 13.4922 13.5059C13.7793 13.2256 13.7725 12.7266 13.4854 12.4395L12.0361 10.9902ZM2.52051 12.4395C2.22656 12.7266 2.22656 13.2188 2.50684 13.5059C2.79395 13.793 3.28613 13.7998 3.57324 13.5127L5.02246 12.0703C5.31641 11.7832 5.31641 11.291 5.03613 11.0039C4.74902 10.7168 4.25684 10.71 3.96973 10.9971L2.52051 12.4395ZM8.75488 12.9658C8.75488 12.5557 8.41309 12.207 8.00293 12.207C7.59277 12.207 7.25098 12.5557 7.25098 12.9658V15.0576C7.25098 15.4609 7.59277 15.8096 8.00293 15.8096C8.41309 15.8096 8.75488 15.4609 8.75488 15.0576V12.9658Z"></path></svg></span>Status</th><td><span class="status-value select-value-color-blue"><div class="status-dot status-dot-color-blue"></div>In progress</span></td></tr></tbody></table></header><div class="page-body"><h3 id="dcc9cf5a-7588-4498-8053-b9f1a2571ab5" class="">Git</h3><p id="baf8fd89-d869-4aca-8e20-ae12ba91d08e" class="">O Git é um sistema de controle de versão distribuído amplamente utilizado na programação. Ele permite que desenvolvedores acompanhem e gerenciem as mudanças em seu código-fonte ao longo do tempo. O Git armazena essas mudanças em um histórico de revisão, o que facilita o rastreamento de quem fez o quê, quando e por quê. Além disso, ele permite que múltiplos colaboradores trabalhem em um projeto simultaneamente sem conflitos significativos.</p><h3 id="61c880ba-c629-456e-8808-cfc934642be8" class="">GitHub</h3><p id="eb3aa21b-21f4-4f4b-8d46-009fb7e66c22" class="">GitHub é uma plataforma de hospedagem de código-fonte que utiliza o Git como sistema de controle de versão subjacente. Ela fornece um ambiente colaborativo para desenvolvedores compartilharem e colaborarem em projetos de software. No GitHub, você pode hospedar seus repositórios Git, colaborar com outros desenvolvedores, acompanhar problemas (issues), criar solicitações de pull (pull requests) e muito mais. É uma plataforma essencial para o desenvolvimento de código aberto e projetos de equipe.</p><h3 id="32bac64a-1513-4a44-b846-dd2b315f07ba" class=""><strong>Versionamento de Código</strong></h3><p id="81bbd157-6dae-48b8-a56b-470b9152d016" class="">O versionamento de código é o processo de rastrear e gerenciar as mudanças em um código-fonte ao longo do tempo. Ele permite que você mantenha um histórico completo de todas as alterações feitas em um projeto, o que é fundamental para o desenvolvimento de software colaborativo e a manutenção de projetos de longo prazo.</p><p id="bf377e51-e18c-4d58-abf0-ed2f157dd190" class="">Resumidamente, o processo de versionamento de código funciona da seguinte forma:</p><ol type="1" id="b78f29d2-39a6-4c85-98a4-cf37273bd04c" class="numbered-list" start="1"><li><strong>Inicialização do Repositório</strong>: Um repositório é criado para o projeto, onde o código-fonte será armazenado e controlado.</li></ol><ol type="1" id="5f4239db-7f7b-4d63-9d9e-bd3f1a84ebfd" class="numbered-list" start="2"><li><strong>Commit</strong>: Quando você faz uma alteração no código, você a &quot;commita&quot; no repositório. Isso cria um ponto no histórico que registra as mudanças feitas.</li></ol><ol type="1" id="91f6f8b9-20e9-4ab8-9264-ed8d20331407" class="numbered-list" start="3"><li><strong>Histórico de Revisão</strong>: O Git mantém um histórico de todas as revisões anteriores, permitindo que você volte no tempo para qualquer ponto e veja o estado do código naquele momento.</li></ol><ol type="1" id="3a31e2f1-527a-4475-bea2-bdb735146cb4" class="numbered-list" start="4"><li><strong>Branches</strong>: Você pode criar branches (ramificações) para desenvolver recursos ou correções separadamente do código principal, evitando conflitos.</li></ol><ol type="1" id="76a803f1-7149-4757-83d5-4fb07d804433" class="numbered-list" start="5"><li><strong>Merge</strong>: Quando um desenvolvimento em um branch está pronto, você pode mesclá-lo de volta ao branch principal para incorporar as mudanças.</li></ol><ol type="1" id="02109717-9144-4176-aa05-c2e95de40a3e" class="numbered-list" start="6"><li><strong>Solicitações de Pull (Pull Requests)</strong>: No GitHub, as solicitações de pull são usadas para propor alterações no código de alguém. Elas permitem a revisão, discussão e integração de mudanças.</li></ol><ol type="1" id="24b00694-b99e-426a-a221-3cccb13fa127" class="numbered-list" start="7"><li><strong>Colaboração</strong>: Múltiplos desenvolvedores podem trabalhar em paralelo, cada um com seu próprio branch, facilitando a colaboração em projetos de equipe.</li></ol><h3 id="b4e5d290-d051-4d35-9f99-be86c89689ee" class="">Autenticando usuário com Token</h3><ul id="9f7979ea-8e6f-403d-8df8-7f1644f66bc4" class="bulleted-list"><li style="list-style-type:disc">Crie um token e após isso insira no lugar da senha ao tentar manusear um repositório utilizando o git em sua máquina.</li></ul><ul id="0864da83-98a2-44ad-afa4-4333a3edef85" class="bulleted-list"><li style="list-style-type:disc">Assim o git irá salvar sua credencial em sua máquina através do token, no entanto, normalmente os tokens tem uma válidade e são usados para um motivo específico. Também é possível substituir o <code>store</code> por <code>cache</code> e assim salvar temporariamente sua credencial em caso de estar dividindo da máquina com alguém.</li></ul><pre id="fee19251-767c-48fc-ac9a-6de6e4ad9cac" class="code"><code>$ git config --global credential.helper store</code></pre><h3 id="b75fe166-c332-41ec-a7b1-a035420512b3" class="">Autenticando usuário com SSH</h3><p id="2abc26bf-d33c-47c7-b1db-bdfac8f75c71" class="">A autenticação SSH utiliza um par de chaves (pública e privada) para provar a identidade do usuário. A chave pública é compartilhada com o servidor remoto, e a chave privada é mantida localmente. Durante a conexão, a chave privada é usada para assinar um desafio criptográfico, e o servidor verifica essa assinatura com a chave pública. Se a correspondência for bem-sucedida, o acesso é autorizado de forma segura e criptografada. Isso oferece um método altamente seguro de autenticação em conexões remotas.</p><ul id="0403ec61-322b-43eb-b7ea-28f27c40a9a7" class="bulleted-list"><li style="list-style-type:disc">Crie um SSH no GitHub.</li></ul><pre id="856a5575-e139-419c-b165-bc1de0555c53" class="code"><code>$ ssh-keygen -t ed25519 -C &quot;email@exemplo.com&quot;</code></pre><ul id="6824fe81-ba01-4a3f-8472-02ce4270f215" class="bulleted-list"><li style="list-style-type:disc">Mantenha o local em que será salvo como padrão, apenas clique em ENTER.</li></ul><ul id="40a42f54-3aaf-4be9-b349-f5c49d78f8bc" class="bulleted-list"><li style="list-style-type:disc">Insira uma senha, caso não queira uma basta clicar em ENTER.</li></ul><ul id="dd66fb59-2edf-443d-8233-802ffdfcad4f" class="bulleted-list"><li style="list-style-type:disc">Insira a chave privada que acabou de ser criada em um ssh-agent.</li></ul><pre id="63a2f5bb-a4e1-40e3-adf7-a5303b5f07e7" class="code"><code># start the ssh-agent in the background
+$ eval &quot;$(ssh-agent -s)&quot;
+&gt; Agent pid 59566</code></pre><ul id="0f8c7fdf-87a8-4dcb-8b00-b49ac0dee965" class="bulleted-list"><li style="list-style-type:disc">Adicione a sua chave SSH privada ao ssh-agent.</li></ul><pre id="cfed7694-c9eb-476d-a9b1-1fbf3d189922" class="code"><code>$ ssh-add ~/.ssh/id_ed25519</code></pre><ul id="5dfab1c4-bb51-497d-8948-62f3413ac45e" class="bulleted-list"><li style="list-style-type:disc">Agora adicione sua chave pública ao GitHub. Ao criar sua chave SSH foi criada a pública e a privada no repositório, então deve ser utilizada a chave pública ao criar uma chave SSH no GitHub.</li></ul><h3 id="ee0405de-cf92-4537-9395-1b2be0f6176c" class="">Clonando repositórios</h3><p id="b0631965-d404-4657-9350-fed0b0635206" class=""><strong><strong><strong><strong><strong><strong><strong>Clonando diretamente do repositório do GitHub</strong></strong></strong></strong></strong></strong></strong></p><pre id="a69a41cc-d386-40d5-903f-f6ec2da63322" class="code"><code>$ git clone URL-do-diretorio-remoto</code></pre><p id="2370eedc-934b-4589-8b85-4a1242e852f1" class=""><strong><strong><strong><strong><strong><strong><strong><strong>Clonando através de um repositório local</strong></strong></strong></strong></strong></strong></strong></strong></p><pre id="f93f3f7a-d710-479f-9721-b0c02022db8e" class="code"><code>$ git init -&gt; Isso irá iniciar o repositório GIT
+$ git remote add origin URL-do-diretorio-remoto</code></pre><ul id="2c4212f2-819c-4f49-a261-e485a8010308" class="bulleted-list"><li style="list-style-type:disc">Caso o repositório já tenha arquivos nele, então:
+</li></ul><pre id="b4424ac6-48f8-40b4-b1ce-bbe86f8108c9" class="code"><code>$ git pull</code></pre><ul id="640cae4a-db76-4552-8eac-989ccf39da1f" class="bulleted-list"><li style="list-style-type:disc">Se o repositório não tiver nada, então basta adicionar o que quiser ao commit e subir para o remoto.</li></ul><pre id="0a37a3d4-9997-4171-be88-7168685e4a43" class="code"><code>$ git add .
+$ git commit -m &quot;Novo commit&quot;
+$ git push -u origin main</code></pre><p id="6be84eb1-86fe-466c-a844-959c9b617f51" class=""><strong><strong><strong><strong><strong><strong><strong><strong>Clonando apenas uma branch do repositório remoto</strong></strong></strong></strong></strong></strong></strong></strong></p><pre id="9bb3e9f1-beb9-43f6-8780-3293d9072789" class="code"><code>$ git clone URL --branch nome-da-branch --single-branch</code></pre><h3 id="139694df-3a14-4a55-97e5-026b25ad7d21" class="">.gitignore</h3><p id="9c379e5b-cce5-4af8-a097-ec3b7db32a28" class="">Serve para excluir arquivos que serão enviados para o repositório remoto.</p><h3 id="e83ec8fe-96a2-4c7f-9f9e-ef11f6254261" class="">Para que serve o “-u” ou “—set-upstream”</h3><p id="d0e20466-4532-489f-a46f-ab4e9f206f68" class="">O argumento -u (ou --set-upstream) no comando git push serve para definir a ramificação remota como uma ramificação de acompanhamento (upstream branch). Uma ramificação de acompanhamento é uma ramificação local que está configurada para rastrear automaticamente uma ramificação remota específica. Isso significa que, após usar -u, você pode simplesmente usar git push ou git pull sem especificar a ramificação remota e o Git saberá para onde enviar ou de onde buscar as alterações.</p><h3 id="adca13ee-b765-4406-b64d-d7aa20a6668f" class="">git status</h3><p id="0aef0de3-4cf8-41c3-912d-dabca34a40df" class="">Mostra a branch atual e o estado dos arquivos.</p><h3 id="ac6a9745-636f-4e55-bc77-ff6ecc4a3ac8" class="">Desfazendo alterações no repositório local</h3><p id="281dd305-5827-4a45-a7bc-37b164f4b3b7" class=""><strong><strong><strong><strong><strong><strong>Como excluir um </strong></strong></strong></strong></strong></strong><code><strong>git init</strong></code><strong> de uma pasta</strong></p><pre id="99579347-9511-48b1-843a-0a72597dea68" class="code"><code>$ rm -rf .git</code></pre><p id="9b391a1d-0ec7-4a94-b781-042804626baa" class=""><strong><strong><strong><strong><strong><strong>Caso tenha modificado algum arquivo e queira que o mesmo volte ao estado do último Commit local</strong></strong></strong></strong></strong></strong></p><pre id="f7188c12-8c42-48f4-ab8b-bebdf1845930" class="code"><code>$ git restore nome-do-arquivo</code></pre><p id="9551e73f-f042-4dcd-9414-934d1aebbd53" class=""><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>Como alterar a mensagem do último commit</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p><pre id="6f20bbaa-4c09-4ea6-b906-2f208e5cff41" class="code"><code>$ git commit --amend -m &quot;Nova mensagem&quot;</code></pre><p id="983773f2-5a9c-4394-9e0d-9a4332519696" class=""><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>Como desfazer o último commit localmente</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p><pre id="98e4c5fa-bddf-4e0c-ade2-33a3f7f1931c" class="code"><code>$ git log -&gt; Copie o ID do commit que quer desfazer
+$ git reset --soft ID-do-commit</code></pre><p id="187d37ee-d49e-45aa-8ffe-7957a55a9ff6" class="">Pode utilizar tanto o soft quanto o mixed, a diferença é que o soft já adiciona os arquivos do último commit na área de preparação, enquanto o comportamento normal do reset que o mixed deixa os arquivos do último commit na área de trabalho.</p><ul id="912532c5-fec1-4150-af9e-294006f031f6" class="bulleted-list"><li style="list-style-type:disc">Caso queira voltar para um commir específico e apagar qualquer alteração posterior em seu arquivo localmente.</li></ul><pre id="7bec9b63-b7ec-457e-b123-d03c3aabd106" class="code"><code>$ git reset --hard ID-do-commit</code></pre><p id="34c3d5fd-a530-4756-a732-6c692dd1f6f1" class=""><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>OBS: O comando acima deleta os arquivos posteriores ao commit selecionado. Muito cuidado.</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p><h3 id="47057fa1-2bdb-45a4-b66f-d1a631ae1c6b" class="">Para observar todas as alterações feitas com mais detalhes</h3><pre id="3f5969ac-6598-44f8-9271-35b5ea14996f" class="code"><code>$ git reflog</code></pre><h3 id="305be25d-63e3-4439-a8d7-a20ba8262111" class="">Baixar as alterações do repositório remoto e deixar salvo, mas sem alterar seu repositório local</h3><pre id="1c962e21-1625-47f7-8115-26ec2aa9f5e1" class="code"><code>$ git fetch origin main</code></pre><p id="a5e4bd3a-2e82-4e8c-b2f1-f5cef1a0d661" class=""><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>Caso queira adicionar essas alterações no repositório local</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p><pre id="08b147a4-0638-4a16-997f-78dd98cea994" class="code"><code>$ git diff main origin/main
+$ git merge origin/main</code></pre><h3 id="c46f7e97-b79b-4736-859f-56ccee787c7b" class="">Criando uma nova branch mas sem as alterações da branch atual</h3><pre id="be134b7d-72d0-4aa9-8b6c-a63e9ce021d9" class="code"><code>$ git stash</code></pre><p id="770ceb35-f951-40ff-a019-18594ceaa1da" class=""><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>Caso queira adicionar novamente alterações que foram arquivadas</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p><pre id="16076fb3-6d32-4c9d-97c0-cbf83b723a31" class="code"><code>$ git stash apply -&gt; Para aplicar as alterações salvas no último pacote
+$ git stash pop -&gt; Apagar as últimas alterações salvas no último pacote</code></pre></div></article></body></html>
